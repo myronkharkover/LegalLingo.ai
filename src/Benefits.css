@@ -1,0 +1,73 @@
+    .benefits {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: inherit;
+    gap: 20px;
+    padding: 40px 0;
+  }
+  
+  .benefit-box {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    flex-basis: calc(33.333% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .benefit-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #4a4a4a;
+    background-color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .benefit-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 768px) {
+    .benefit-box {
+      flex-basis: 100%;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.6s ease-out, transform 1.2s ease-out;
+    will-change: opacity, visibility;
+  }
+  
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+
+
+

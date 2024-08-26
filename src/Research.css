@@ -1,0 +1,70 @@
+.research-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px;
+    color: #ffffff;
+    background-color: #1c1c1c;
+  }
+  
+  .research-container h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .citations h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4a4a4a;
+  }
+  
+  .citations ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  
+  .citations li {
+    margin-bottom: 15px;
+  }
+  
+  .citations a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .citations a:hover {
+    color: #4a4a4a;
+  }
+  
+  .research-image {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .research-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .research-image p {
+    margin-top: 10px;
+    font-style: italic;
+    color: #aaaaaa;
+  }
+  
+  @media (max-width: 768px) {
+    .research-container h1 {
+      font-size: 2.5rem;
+    }
+  
+    .citations h2 {
+      font-size: 1.8rem;
+    }
+  
+    .citations li {
+      font-size: 0.9rem;
+    }
+  }

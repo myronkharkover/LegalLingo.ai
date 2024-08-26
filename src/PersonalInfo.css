@@ -1,0 +1,63 @@
+.personal-info-page {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #1c1c1c;
+    color: #ffffff;
+  }
+  
+  .personal-info-container {
+    flex-grow: 1;
+    margin-left: 60px;
+    transition: margin-left 0.3s ease;
+    overflow-x: hidden;
+  }
+  
+  .personal-info-container.sidebar-open {
+    margin-left: 200px;
+  }
+  
+  .personal-info-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 20px;
+    /* background-color: #232323; */
+    text-align: center;
+  }
+  
+  .personal-info-content {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #232323;
+  }
+  
+  .info-item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .info-item label {
+    font-weight: bold;
+    width: 150px;
+  }
+  
+  .info-item span {
+    flex-grow: 1;
+  }
+  
+  .info-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .info-item button:hover {
+    background-color: #5a5a5a;
+  }

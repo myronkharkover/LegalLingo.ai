@@ -1,0 +1,78 @@
+.pricing {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 80px 0;
+}
+
+.pricing-box {
+  background-color: #2c2c2c;
+  border-radius: 20px;
+  padding: 40px;
+  flex-basis: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.pricing-box.featured {
+  transform: scale(1.05);
+  background-color: #3c3c3c;
+}
+
+.pricing-box:hover {
+  transform: translateY(-15px);
+}
+
+.pricing-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.pricing-feature {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+@media (max-width: 1024px) {
+  .pricing {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pricing-box {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-in-section {
+  opacity: 0;
+  transform: scale(0.8);
+  visibility: hidden;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, visibility, transform;
+}
+
+.scale-in-section.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+}

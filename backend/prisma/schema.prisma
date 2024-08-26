@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model documents {
+  id                Int     @id @default(autoincrement())
+  document_name     String  @db.VarChar(255)
+  document_returned String? @db.VarChar(255)
+  source_language   String  @db.VarChar(10)
+  target_language   String  @db.VarChar(10)
+  users             users   @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction)
+  username          String
+  folder            folders? @relation(fields: [folderId], references: [id])
+  folderId          Int?
+}
+
+model user_profiles {
+  profile_id   Int     @id @default(autoincrement())
+  username     String  @unique
+  company_name String?
+  email        String?
+  users        users   @relation(fields: [username], references: [username])
+}
+
+model users {
+  username     String         @id
+  password     String
+  user_profile user_profiles?
+  documents    documents[]
+  folders      folders[]
+}
+
+model folders {
+  id        Int         @id @default(autoincrement())
+  name      String
+  users     users       @relation(fields: [username], references: [username], onDelete: Cascade)
+  username  String
+  documents documents[]
+}
