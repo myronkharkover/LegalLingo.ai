@@ -21,7 +21,7 @@ const port = 3001;
 // }));
 
 app.use(cors({
-  origin: true,
+  origin: "https://main--legallingo.netlify.app/",
   credentials: true
 }));
 
@@ -35,8 +35,10 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
+    secure: true,
     sameSite: 'none',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    domain: 'https://main--legallingo.netlify.app/'
   }
 }));
 
