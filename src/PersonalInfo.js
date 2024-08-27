@@ -20,19 +20,6 @@ const PersonalInfo = () => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedAuth = sessionStorage.getItem('isAuthenticated');
-    const storedUsername = sessionStorage.getItem('username');
-    
-    if (storedAuth && storedUsername) {
-      setIsAuthenticated(true);
-      setUserInfo(prevInfo => ({ ...prevInfo, username: storedUsername }));
-      fetchUserInfo();
-    } else {
-      checkAuth();
-    }
-  }, []);
-
   const checkAuth = async () => {
     try {
       const response = await fetch(`${API_URL}/api/check-auth`, {
@@ -54,6 +41,19 @@ const PersonalInfo = () => {
       setShowSignInModal(true);
     }
   };
+
+  useEffect(() => {
+    const storedAuth = sessionStorage.getItem('isAuthenticated');
+    const storedUsername = sessionStorage.getItem('username');
+    
+    if (storedAuth && storedUsername) {
+      setIsAuthenticated(true);
+      setUserInfo(prevInfo => ({ ...prevInfo, username: storedUsername }));
+      fetchUserInfo();
+    } else {
+      checkAuth();
+    }
+  }, [checkAuth]);
 
   const fetchUserInfo = async () => {
     try {

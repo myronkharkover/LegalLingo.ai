@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import './App.css';
 import Benefits from './Benefits';
 import Features from './Features';
@@ -100,12 +100,6 @@ function OldInsightsRedirect() {
     }
   }, []);
 
-  useEffect(() => {
-    if (username) {
-      fetchDocumentDetails();
-    }
-  }, [username, documentId]);
-
   const fetchDocumentDetails = async () => {
     try {
       const response = await fetch(`${API_URL}/api/documents/${documentId}`, {
@@ -121,6 +115,12 @@ function OldInsightsRedirect() {
       navigate('/dashboard');
     }
   };
+
+  useEffect(() => {
+    if (username) {
+      fetchDocumentDetails();
+    }
+  }, [username, documentId, fetchDocumentDetails]);
 
   return <div>Redirecting...</div>;
 }

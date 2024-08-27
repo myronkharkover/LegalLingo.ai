@@ -17,19 +17,6 @@ const Insights = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedAuth = sessionStorage.getItem('isAuthenticated');
-    const storedUsername = sessionStorage.getItem('username');
-    
-    if (storedAuth && storedUsername) {
-      setIsAuthenticated(true);
-      setCurrentUsername(storedUsername);
-      fetchDocument();
-    } else {
-      checkAuth();
-    }
-  }, [username, documentId, language]);
-
   const checkAuth = async () => {
     try {
       const response = await fetch(`${API_URL}/api/check-auth`, {
@@ -71,6 +58,19 @@ const Insights = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const storedAuth = sessionStorage.getItem('isAuthenticated');
+    const storedUsername = sessionStorage.getItem('username');
+    
+    if (storedAuth && storedUsername) {
+      setIsAuthenticated(true);
+      setCurrentUsername(storedUsername);
+      fetchDocument();
+    } else {
+      checkAuth();
+    }
+  }, [username, documentId, language, checkAuth, fetchDocument]);
 
   const handleSignOut = async () => {
     try {
