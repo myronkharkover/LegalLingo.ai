@@ -42,3 +42,13 @@ model folders {
   username  String
   documents documents[]
 }
+
+model demo_requests {
+  id           Int      @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  email        String
+  company_name String
+  additional_info String?
+  created_at   DateTime @default(now())
+}

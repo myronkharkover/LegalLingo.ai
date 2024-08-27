@@ -24,6 +24,8 @@ const Dashboard = () => {
   const [sortOption, setSortOption] = useState('nameAsc');
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -179,6 +181,33 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteDocument = async () => {
+    if (!documentToDelete) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/documents/${documentToDelete.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete document');
+      }
+
+      setDocuments(documents.filter(doc => doc.id !== documentToDelete.id));
+      setShowDeleteModal(false);
+      setDocumentToDelete(null);
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      alert('Failed to delete document. Please try again.');
+    }
+  };
+
+  const openDeleteModal = (document) => {
+    setDocumentToDelete(document);
+    setShowDeleteModal(true);
+  };
+
   const handlePersonalInfo = () => {
     navigate('/personal');
   };
@@ -301,26 +330,43 @@ const Dashboard = () => {
                 </div>
                 <div className="document-footer">
                   <span className="file-name">{doc.originalName}</span>
-                  <select 
-                    onChange={(e) => handleMoveToFolder(doc.id, e.target.value)}
-                    value={doc.folderId || ''}
-                    className="move-to-folder"
-                  >
-                    <option value="">Move to folder</option>
-                    {folders.map(folder => (
-                      <option key={folder.id} value={folder.id}>{folder.name}</option>
-                    ))}
-                  </select>
+                  <div className="document-actions">
+                    <select 
+                      onChange={(e) => handleMoveToFolder(doc.id, e.target.value)}
+                      value={doc.folderId || ''}
+                      className="move-to-folder"
+                    >
+                      <option value="">Move to folder</option>
+                      {folders.map(folder => (
+                        <option key={folder.id} value={folder.id}>{folder.name}</option>
+                      ))}
+                    </select>
+                    <button className="delete-btn" onClick={() => openDeleteModal(doc)}>Delete</button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {showDeleteModal && (
+            <div className="pop-up-overlay">
+              <div className="pop-up-content">
+                <h3>Confirm Deletion</h3>
+                <p>Are you sure you want to delete the document "{documentToDelete?.originalName}"?</p>
+                <p>This action cannot be undone.</p>
+                <div className="pop-up-actions">
+                  <button onClick={handleDeleteDocument}>Confirm Delete</button>
+                  <button onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
       {showFolderModal && (
         <div className="modal-overlay">
-          <div className="modal-content">
+          <div className="modal-qontent">
             <h3>New Folder Name</h3>
             <input
               type="text"

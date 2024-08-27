@@ -137,6 +137,50 @@ app.get('/api/documents/:id', isAuthenticated, async (req, res) => {
   }
 });
 
+app.delete('/api/documents/:id', isAuthenticated, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username } = req.session;
+
+    const document = await prisma.documents.findFirst({
+      where: {
+        id: parseInt(id),
+        username: username
+      }
+    });
+
+    if (!document) {
+      return res.status(404).json({ error: 'Document not found or unauthorized' });
+    }
+
+    // Delete from S3
+    const originalKey = document.document_name.split('/').pop();
+    const translatedKey = document.document_returned.split('/').pop();
+
+    await s3.deleteObject({
+      Bucket: process.env.UPLOAD_BUCKET_NAME,
+      Key: originalKey
+    }).promise();
+
+    await s3.deleteObject({
+      Bucket: process.env.TRANSLATED_BUCKET_NAME,
+      Key: translatedKey
+    }).promise();
+
+    // Delete from database
+    await prisma.documents.delete({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    res.json({ success: true, message: 'Document deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting document:', error);
+    res.status(500).json({ error: 'Error deleting document', details: error.message });
+  }
+});
+
 app.post('/api/process-file', isAuthenticated, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -436,6 +480,27 @@ app.get('/api/check-auth', (req, res) => {
     res.json({ authenticated: true, username: req.session.username });
   } else {
     res.status(401).json({ authenticated: false });
+  }
+});
+
+app.post('/api/request-demo', async (req, res) => {
+  try {
+    const { firstName, lastName, email, companyName, additionalInfo } = req.body;
+
+    const demoRequest = await prisma.demo_requests.create({
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        company_name: companyName,
+        additional_info: additionalInfo
+      }
+    });
+
+    res.json({ success: true, message: 'Demo request submitted successfully', demoRequest });
+  } catch (error) {
+    console.error('Error submitting demo request:', error);
+    res.status(500).json({ success: false, message: 'Error submitting demo request', error: error.message });
   }
 });
 

@@ -29,6 +29,7 @@ const Chat = () => {
   const [targetLanguage, setTargetLanguage] = useState('EN-US');
   const [hoveredSourceLanguage, setHoveredSourceLanguage] = useState(null);
   const [hoveredTargetLanguage, setHoveredTargetLanguage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
   const sourceHoverTimeoutRef = useRef(null);
   const targetHoverTimeoutRef = useRef(null);
@@ -127,11 +128,12 @@ const Chat = () => {
   };
 
   const confirmTranslation = async () => {
-    setInputDisable(true);
+    setIsLoading(true);
+    setShowLanguageModal(false);
     try {
       let response;
       let formData = new FormData();
-      
+
       if (selectedFile) {
         formData.append('file', selectedFile);
       } else if (inputValue) {
@@ -169,13 +171,13 @@ const Chat = () => {
       console.error('Error translating:', error);
       alert(`Error translating: ${error.message}`);
     } finally {
+      setIsLoading(false);
       setInputDisable(false);
       setSelectedFile(null);
       setInputValue('');
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-      setShowLanguageModal(false);
     }
   };
 
@@ -396,6 +398,15 @@ const Chat = () => {
           </div>
         )}
       </main>
+
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-content">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Translating...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

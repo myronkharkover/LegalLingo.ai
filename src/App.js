@@ -221,11 +221,37 @@ function AppContent() {
     }
   };
 
-  const handleRequestDemo = (event) => {
+  const handleRequestDemo = async (event) => {
     event.preventDefault();
-    // Implement the demo request logic here
-    console.log('Demo requested');
-    closeRequestDemoModal();
+    const form = event.target;
+    const { firstName, lastName, email, companyName, additionalInfo } = form.elements;
+
+    try {
+      const response = await fetch('http://localhost:3001/api/request-demo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: firstName.value,
+          lastName: lastName.value,
+          email: email.value,
+          companyName: companyName.value,
+          additionalInfo: additionalInfo.value
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        closeRequestDemoModal();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Demo request error:', error);
+      alert('An error occurred while submitting the demo request. Please try again.');
+    }
   };
 
   const handleClickOutside = (event) => {
@@ -373,11 +399,11 @@ function AppContent() {
               </button>
               <h2>Request a Demo</h2>
               <form onSubmit={handleRequestDemo}>
-                <input type="text" placeholder="First Name" required />
-                <input type="text" placeholder="Last Name" required />
-                <input type="email" placeholder="Email" required />
-                <input type="text" placeholder="Company Name" required />
-                <textarea className="request-demo-form" placeholder="Additional Info (Optional)"></textarea>
+                <input type="text" name="firstName" placeholder="First Name" required />
+                <input type="text" name="lastName" placeholder="Last Name" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="text" name="companyName" placeholder="Company Name" required />
+                <textarea name="additionalInfo" className="request-demo-form" placeholder="Additional Info (Optional)"></textarea>
                 <button type="submit">Submit</button>
               </form>
             </div>
