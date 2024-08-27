@@ -15,8 +15,13 @@ const { OpenAI } = require("openai");
 const app = express();
 const port = 3001;
 
+// app.use(cors({
+//   origin: 'http://18.205.107.95:3000',
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: 'http://18.205.107.95:3000',
+  origin: true,
   credentials: true
 }));
 
@@ -30,6 +35,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
+    sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
