@@ -184,7 +184,7 @@ function AppContent() {
         sessionStorage.setItem('isAuthenticated', 'true');
         sessionStorage.setItem('username', username);
 
-        // Navigate to the chat page upon successful sign-in
+        // Navigate to the chat page upon sign in
         navigate('/chat');
       } else {
         setSignInError(data.message);
