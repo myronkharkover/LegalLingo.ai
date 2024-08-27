@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import './Insights.css';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const Insights = () => {
   const { username, documentId, language } = useParams();
   const [document, setDocument] = useState(null);
@@ -30,7 +32,7 @@ const Insights = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/check-auth', {
+      const response = await fetch(`${API_URL}/api/check-auth`, {
         credentials: 'include',
       });
 
@@ -54,7 +56,7 @@ const Insights = () => {
 
   const fetchDocument = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/documents/${username}-${documentId}-${language}`, {
+      const response = await fetch(`${API_URL}/api/documents/${username}-${documentId}-${language}`, {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -72,7 +74,7 @@ const Insights = () => {
 
   const handleSignOut = async () => {
     try {
-      await fetch('http://localhost:3001/api/signout', {
+      await fetch(`${API_URL}/api/signout`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -97,7 +99,7 @@ const Insights = () => {
   const handleSendMessage = async () => {
     if (inputValue.trim()) {
       try {
-        const response = await fetch('http://localhost:3001/api/chat', {
+        const response = await fetch(`${API_URL}/api/chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

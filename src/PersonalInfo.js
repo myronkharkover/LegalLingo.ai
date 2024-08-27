@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './PersonalInfo.css';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const PersonalInfo = () => {
   const [userInfo, setUserInfo] = useState({
     username: '',
@@ -33,7 +35,7 @@ const PersonalInfo = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/check-auth', {
+      const response = await fetch(`${API_URL}/api/check-auth`, {
         credentials: 'include',
       });
 
@@ -55,7 +57,7 @@ const PersonalInfo = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/user-info', {
+      const response = await fetch(`${API_URL}/api/user-info`, {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -75,7 +77,7 @@ const PersonalInfo = () => {
     const { username, password } = form.elements;
 
     try {
-      const response = await fetch('http://localhost:3001/api/signin', {
+      const response = await fetch(`${API_URL}/api/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +123,7 @@ const PersonalInfo = () => {
   const handleSave = async (field) => {
     try {
       setError(null);
-      const response = await fetch('http://localhost:3001/api/update-user-field', {
+      const response = await fetch(`${API_URL}/api/update-user-field`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

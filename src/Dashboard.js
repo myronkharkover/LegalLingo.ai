@@ -10,6 +10,8 @@ const languageEmojis = {
   'EN-GB': "🇬🇧", 'EN-US': "🇺🇸", 'PT-BR': "🇧🇷", 'PT-PT': "🇵🇹", 'ZH-HANS': "🇨🇳", 'ZH-HANT': "🇹🇼"
 };
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
   const [folders, setFolders] = useState([]);
@@ -44,7 +46,7 @@ const Dashboard = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/check-auth', {
+      const response = await fetch(`${API_URL}/api/check-auth`, {
         credentials: 'include',
       });
 
@@ -66,7 +68,7 @@ const Dashboard = () => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/documents', {
+      const response = await fetch(`${API_URL}/api/documents`, {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -84,7 +86,7 @@ const Dashboard = () => {
 
   const fetchFolders = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/folders', {
+      const response = await fetch(`${API_URL}/api/folders`, {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -100,7 +102,7 @@ const Dashboard = () => {
   const handleCreateFolder = async () => {
     if (newFolderName.trim()) {
       try {
-        const response = await fetch('http://localhost:3001/api/folders', {
+        const response = await fetch(`${API_URL}/api/folders`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -122,7 +124,7 @@ const Dashboard = () => {
 
   const handleMoveToFolder = async (documentId, folderId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/documents/${documentId}/move`, {
+      const response = await fetch(`${API_URL}/api/documents/${documentId}/move`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -164,7 +166,7 @@ const Dashboard = () => {
 
   const handleSignOut = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/signout', {
+      const response = await fetch(`${API_URL}/api/signout`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -185,7 +187,7 @@ const Dashboard = () => {
     if (!documentToDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/documents/${documentToDelete.id}`, {
+      const response = await fetch(`${API_URL}/api/documents/${documentToDelete.id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -217,7 +219,7 @@ const Dashboard = () => {
   };
 
   const handleDownload = (fileName, isTranslated) => {
-    window.location.href = `http://localhost:3001/api/download-file?fileName=${encodeURIComponent(fileName)}`;
+    window.location.href = `${API_URL}/api/download-file?fileName=${encodeURIComponent(fileName)}`;
   };
 
   const handleInsights = (documentId, language, isTranslated) => {

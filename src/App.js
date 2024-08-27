@@ -10,6 +10,8 @@ import Research from './Research';
 import PersonalInfo from './PersonalInfo';
 import Dashboard from './Dashboard';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/check-auth', {
+        const response = await fetch(`${API_URL}/api/check-auth`, {
           credentials: 'include'
         });
         if (!response.ok) {
@@ -106,7 +108,7 @@ function OldInsightsRedirect() {
 
   const fetchDocumentDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/documents/${documentId}`, {
+      const response = await fetch(`${API_URL}/api/documents/${documentId}`, {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -166,7 +168,7 @@ function AppContent() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/signin', {
+      const response = await fetch(`${API_URL}/api/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -199,7 +201,7 @@ function AppContent() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/signup', {
+      const response = await fetch(`${API_URL}/api/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -227,7 +229,7 @@ function AppContent() {
     const { firstName, lastName, email, companyName, additionalInfo } = form.elements;
 
     try {
-      const response = await fetch('http://localhost:3001/api/request-demo', {
+      const response = await fetch(`${API_URL}/api/request-demo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

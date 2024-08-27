@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Chat.css';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const languageEmojis = {
   AR: "🇸🇦", BG: "🇧🇬", CS: "🇨🇿", DA: "🇩🇰", DE: "🇩🇪", EL: "🇬🇷", EN: "🇬🇧", ES: "🇪🇸",
   ET: "🇪🇪", FI: "🇫🇮", FR: "🇫🇷", HU: "🇭🇺", ID: "🇮🇩", IT: "🇮🇹", JA: "🇯🇵", KO: "🇰🇷",
@@ -49,7 +51,7 @@ const Chat = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/check-auth', {
+      const response = await fetch(`${API_URL}/api/check-auth`, {
         credentials: 'include',
       });
 
@@ -74,7 +76,7 @@ const Chat = () => {
     const { username, password } = form.elements;
 
     try {
-      const response = await fetch('http://localhost:3001/api/signin', {
+      const response = await fetch(`${API_URL}/api/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -147,7 +149,7 @@ const Chat = () => {
       formData.append('source_lang', sourceLanguage);
       formData.append('target_lang', targetLanguage);
 
-      response = await fetch('http://localhost:3001/api/process-file', {
+      response = await fetch(`${API_URL}/api/process-file`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -195,7 +197,7 @@ const Chat = () => {
 
   const handleDownload = (fileName) => {
     const encodedFileName = encodeURIComponent(fileName);
-    window.location.href = `http://localhost:3001/api/download-file?fileName=${encodedFileName}`;
+    window.location.href = `${API_URL}/api/download-file?fileName=${encodedFileName}`;
   };
 
   const toggleSidebar = () => {
