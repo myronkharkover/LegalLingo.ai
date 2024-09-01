@@ -1,5 +1,8 @@
 # LegalLingo.ai
 
+Built a secure platform where users can feel safe uploading, storing, and organizing legal documents to have them translated
+in minutes into over 50 languages in seconds; users can also extract insights from their document pre or post translation
+
 This project was created by Myron Kharkover.
 
 ## Video Demo
